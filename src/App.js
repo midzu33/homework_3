@@ -1,25 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+document.addEventListener("DOMContentLoaded", function () {
+  const taskInput = document.getElementById("taskInput");
+  const addTaskButton = document.getElementById("addTask");
+  const taskList = document.getElementById("taskList");
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+  addTaskButton.addEventListener("click", function () {
+    const taskText = taskInput.value.trim();
 
-export default App;
+    if (taskText !== "") {
+      const listItem = document.createElement("li");
+      listItem.innerHTML = `
+                        <span>${taskText}</span>
+                        <span class="delete">delete</span>
+                    `;
+
+      listItem.querySelector(".delete").addEventListener("click", function () {
+        taskList.removeChild(listItem);
+      });
+
+      taskList.appendChild(listItem);
+      taskInput.value = "";
+    }
+  });
+
+  taskInput.addEventListener("keyup", function (event) {
+    if (event.key === "Enter") {
+      addTaskButton.click();
+    }
+  });
+});
